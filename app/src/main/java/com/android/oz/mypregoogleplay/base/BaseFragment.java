@@ -12,7 +12,7 @@ import com.android.oz.mypregoogleplay.utils.UIUtils;
 /**
  * Created by jonesleborn on 16/8/24.
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     /**
      * 页面控制器
@@ -22,13 +22,28 @@ public class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return new LoadPager(UIUtils.getContext());
+        // 因为LoadPager方法是抽象的类,所以必须要实现抽象方法
+        mLoadPager = new LoadPager(UIUtils.getContext()) {
+            // 但是BaseFragment也不知道该如何实现这两个方法
+            // 所以BaseFragment也将这两个方法抽象
+            @Override
+            protected View initSuccessView() {
+                return BaseFragment.this.initSuccessView();
+            }
+
+            @Override
+            public RefreshState initData() {
+                return BaseFragment.this.initData();
+            }
+        };
+
+        // 在这里调用加载数据的方法
+        mLoadPager.triggleData();
+
+        return mLoadPager;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
+    public abstract View initSuccessView();
 
-
+    public abstract LoadPager.RefreshState initData();
 }

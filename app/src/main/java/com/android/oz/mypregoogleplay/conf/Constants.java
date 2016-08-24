@@ -4,7 +4,6 @@ package com.android.oz.mypregoogleplay.conf;
 import com.android.oz.mypregoogleplay.utils.LogUtils;
 
 /**
- * @author 王维波
  * @time 2016/8/19  10:44
  * @desc ${TODD}
  */

@@ -1,7 +1,6 @@
 package com.android.oz.mypregoogleplay.factory;
 
-import android.support.v4.app.Fragment;
-
+import com.android.oz.mypregoogleplay.base.BaseFragment;
 import com.android.oz.mypregoogleplay.fragment.AppFragment;
 import com.android.oz.mypregoogleplay.fragment.CatoryFragment;
 import com.android.oz.mypregoogleplay.fragment.GameFragment;
@@ -10,9 +9,11 @@ import com.android.oz.mypregoogleplay.fragment.HotFragment;
 import com.android.oz.mypregoogleplay.fragment.RecommondFragment;
 import com.android.oz.mypregoogleplay.fragment.SubjectFragment;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
- * @author 王维波
  * @time 2016/8/19  11:54
  * @desc 是一个产生Fragment工厂内
  */
@@ -26,8 +27,16 @@ public class FragmentFactory {
     private static final int FRAGMENT_CATORY = 5;//分类
     private static final int FRAGMENT_HOT = 6;//排行
 
-    public static Fragment createFragment(int position) {
-        Fragment fragment = null;
+    // 用来保存之前new出来的Fragment
+    private static Map<Integer, BaseFragment> cacheFragment = new HashMap<>();
+
+    public static BaseFragment createFragment(int position) {
+        BaseFragment fragment = null;
+        if (cacheFragment.containsKey(position)) {
+            fragment = cacheFragment.get(position);
+            return fragment;
+        }
+
         switch (position) {
             case FRAGMENT_HOME:
                 fragment = new HomeFragment();
@@ -36,22 +45,23 @@ public class FragmentFactory {
                 fragment = new AppFragment();
                 break;
             case FRAGMENT_GAME:
-                fragment=new GameFragment();
+                fragment = new GameFragment();
                 break;
             case FRAGMENT_SUBJECT:
-                fragment=new SubjectFragment();
+                fragment = new SubjectFragment();
                 break;
             case FRAGMENT_RECOMMOND:
-                fragment=new RecommondFragment();
+                fragment = new RecommondFragment();
                 break;
             case FRAGMENT_CATORY:
-                fragment=new CatoryFragment();
+                fragment = new CatoryFragment();
                 break;
             case FRAGMENT_HOT:
-                fragment=new HotFragment();
+                fragment = new HotFragment();
                 break;
         }
-
+        // 添加到cacheFragment中
+        cacheFragment.put(position, fragment);
         return fragment;
     }
 }

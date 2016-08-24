@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Handler;
 
 /**
- * @author 王维波
  * @time 2016/8/19  10:14
  * @desc app 运行时最先运行的类,可以做一些全局初始化的方法或者常量
  */
